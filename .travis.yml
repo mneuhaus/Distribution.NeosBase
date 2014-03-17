@@ -18,7 +18,7 @@ before_script:
   # configure apache virtual hosts
   - sudo cp -f Build/Travis/VirtualHost /etc/apache2/sites-available/default
   - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default
-  - echo "127.0.0.1 broensfin.behat" | sudo tee -a /etc/hosts
+  - echo "127.0.0.1 neos.travis" | sudo tee -a /etc/hosts
   - sudo service apache2 restart
 
   # install
@@ -31,6 +31,7 @@ before_script:
   - mkdir -p Configuration/Development/Behat
   - cp Build/Travis/Settings.yaml Configuration/Development/Behat/Settings.yaml
   - cp Build/Travis/Behat.yml Packages/Application/TYPO3.Neos/Tests/Behavior/behat.yml
+  - cp Build/Travis/Behat.yml Packages/Application/TYPO3.TYPO3CR/Tests/Behavior/behat.yml
 
   # Set up git
   - git config --global user.email "apocalip@gmail.com"
@@ -59,3 +60,4 @@ script:
     - phpunit -c Build/BuildEssentials/PhpUnit/UnitTests.xml
     - phpunit -c Build/BuildEssentials/PhpUnit/FunctionalTests.xml
     - bin/behat -c Packages/Application/TYPO3.Neos/Tests/Behavior/behat.yml
+    - bin/behat -c Packages/Application/TYPO3.TYPO3CR/Tests/Behavior/behat.yml
